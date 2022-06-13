@@ -8,7 +8,6 @@ With it, standard midi files can be converted to the type of music score that th
 @date 2022-06-09 Thu 16:30:58 -0300
 """
 from notes import notes_mapping
-
 import argparse
 import math
 from typing import Optional, IO
@@ -55,7 +54,7 @@ def f2m(freq: float) -> int:
     return 69 + round(12 * math.log2(freq / 440))
 
 
-def freq2cypher(frequency: float, notes: dict[str, float]) -> Optional[str]:
+def freq2cypher(frequency: float, notes: "dict[str, float]") -> Optional[str]:
     """Convert a frequency to the corresponding cypher in english notation.
 
     Parameters
