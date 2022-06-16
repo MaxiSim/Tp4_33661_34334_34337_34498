@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 class Modulators (object):
+    
     def constant (t: float)->float:
         return 1
 
