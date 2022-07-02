@@ -8,6 +8,15 @@ class Modulator:
     def constant (t: float)->float:
         return 1
 
+    def linear (t: float, t0: float)->float:
+        return t/t0
+
+    def invlinear (t: float, t0: float)->float:
+        ans = 1-(t/t0)
+        if ans < 0:
+            return 0
+        return ans
+    
     def sin (a: float, t: float, f: float)->float:
         x = f*t
         return 1 + a * math.sin(x)
@@ -19,17 +28,15 @@ class Modulator:
     def invexp (t: float, t0: float)->float:
         x = -5*t/t0
         return math.exp(x)
-
-    def tri (a, t, t1, t0):
-        if t < t1:
-          return (t * a) / t1
-        else:
-          return ((t-t1)/(t1-t0))+a
+    
+    def quartcos (t: float, t0: float)->float:
+        x = (math.pi * t) / 2 * t0
+        return math.cos(x)
 
     def quartsin (t: float, t0: float)->float:
         x = (math.pi * t) / 2 * t0
         return math.sin(x)
-
+      
     def halfcos (t: float, t0: float)->float:
         x = (math.pi * t) / t0
         return (1+ math.cos(x)) / 2
