@@ -1,13 +1,18 @@
-
+import numpy as np
+import math
+import matplotlib.pyplot as plt
+import functions 
 
 class Instrument:
     def __init__(self, name, instrument_file):
         self.name = name
-        self.path = f'/Users/Maxi 1/pensamiento_computacional/TPS/Tp_final/tpf/instruments/{instrument_file}'
+        self.path = instrument_file
         self.n_harmonics = 0
         self.file = self.read_file()
         self.harmonics = self.set_harmonics()
         self.mods = self.set_mods()
+        self.decay_time = self.set_decay()
+        self.functions = {}
         
         
     def read_file(self):
@@ -39,18 +44,41 @@ class Instrument:
         
         decay = self.file[self.n_harmonics+3].split(' ')
         mods["Decay"] = (decay[0], float(decay[1]))
-        
         return mods
-
-def main():
-    piano = Instrument('piano', 'piano.txt') 
     
-    print (piano.harmonics)
-    print (piano.mods)  
-           
+    def set_decay (self):
+        decay_time = self.mods['Decay'][1]
+        return decay_time
+    
+    def synthetise(self, note, length):
+        freq = 880.000
+        duration = length + self.decay_time
+        note_wave = np.arange(0,duration, 1/48000)
+        array = 0
+        sine = self.harmonics[0][1] * (np.sin(2*math.pi*freq*self.harmonics[0][0]*note_wave))
+        # for harmonic in range(len(self.harmonics)):
+        #     sine = self.harmonics[harmonic][1] * (np.sin(2*math.pi*freq*self.harmonics[harmonic][0]*note_wave))
+        array += sine 
+        # plt.plot(note_wave, array)
+        # plt.show()
+        self.modulate(array, duration)
+    
+    def modulate (self, array, duration):
+        pass
+        # for t in range(duration*48000):
+        #     if t 
 
-if __name__ == '__main__':
-    main()
+# def main():
+#     piano = Instrument('ejemplo2', 'ejemplo2.txt') 
+    
+#     print (piano.harmonics)
+    
+#     print (piano.mods)  
+           
+#     piano.synthetise()
+
+# if __name__ == '__main__':
+#     main()
 
                     
     
