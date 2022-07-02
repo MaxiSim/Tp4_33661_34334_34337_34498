@@ -1,7 +1,10 @@
+from wave import Wave_write
+from more_itertools import sample
 import numpy as np
 import math
 import matplotlib.pyplot as plt
 import functions 
+from scipy.io.wavfile import write as wavwrite
 
 class Instrument:
     def __init__(self, name, instrument_file):
@@ -61,12 +64,20 @@ class Instrument:
         array += sine 
         # plt.plot(note_wave, array)
         # plt.show()
-        self.modulate(array, duration)
+        # self.modulate(array, duration)
+        self.make_wave(freq, duration, array)  
     
     def modulate (self, array, duration):
         pass
         # for t in range(duration*48000):
         #     if t 
+        
+    def make_wave (self, freq, duration, array):
+        samplerate = 48000
+        amplitude = np.iinfo(np.int16).max
+        data = amplitude * array
+        wavwrite('sample1.wav', samplerate, data.astype(np.int16))
+        
 
 # def main():
 #     piano = Instrument('ejemplo2', 'ejemplo2.txt') 

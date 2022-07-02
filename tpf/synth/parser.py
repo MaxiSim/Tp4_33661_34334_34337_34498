@@ -16,13 +16,6 @@ def main() -> None:
     
     # Parsing of the arguments
     args = parser.parse_args()
-    # print(f'Contents of the song_name argument: {args.song_name} (type: {type(args.song_name)})')
-    # print(f'Contents of the instrument_name argument: {args.instrument_name} (type: {type(args.instrument_name)})')
-    # print(f'Contents of the music_sheet argument: {args.music_sheet} (type: {type(args.music_sheet)})')
-    # print(f'Contents of the instrument argument: {args.instrument} (type: {type(args.instrument)})')
-    # print(f'Contents of the output argument: {args.output} (type: {type(args.output)})')
-    # print(f'Contents of the frequency argument: {args.frequency} (type: {type(args.frequency)})')
-    
     instrument_name = args.instrument_name
     instrument_name = Instrument(args.instrument_name, args.instrument)
     
@@ -31,7 +24,7 @@ def main() -> None:
     # print(instrument_name.mods)
     
     instrument_name.synthetise('A4', 2.0)
-    instrument_name.set_functions()
+    # instrument_name.set_functions()
 
 if __name__ == '__main__':
     main()
