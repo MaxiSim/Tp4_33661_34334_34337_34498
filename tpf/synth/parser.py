@@ -24,7 +24,7 @@ def main() -> None:
     # print(instrument_name.mods)
     
     instrument_name.synthetise('A4', 2.0)
-    # instrument_name.set_functions()
+    instrument_name.set_functions()
 
 if __name__ == '__main__':
     main()

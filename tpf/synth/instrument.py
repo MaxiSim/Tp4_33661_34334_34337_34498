@@ -3,6 +3,7 @@ import math
 import matplotlib.pyplot as plt
 import functions 
 from scipy.io.wavfile import write as wavwrite
+from functions import Modulator
 
 class Instrument:
     def __init__(self, name, instrument_file):
@@ -13,7 +14,7 @@ class Instrument:
         self.harmonics = self.set_harmonics()
         self.mods = self.set_mods()
         self.decay_time = self.set_decay()
-        self.functions = {}
+        self.functions = self.set_functions()
         
         
     def read_file(self):
@@ -56,9 +57,9 @@ class Instrument:
         duration = length + self.decay_time
         note_wave = np.arange(0,duration, 1/48000)
         array = 0
-        sine = self.harmonics[0][1] * (np.sin(2*math.pi*freq*self.harmonics[0][0]*note_wave))
-        # for harmonic in range(len(self.harmonics)):
-        #     sine = self.harmonics[harmonic][1] * (np.sin(2*math.pi*freq*self.harmonics[harmonic][0]*note_wave))
+        # sine = self.harmonics[0][1] * (np.sin(2*math.pi*freq*self.harmonics[0][0]*note_wave))
+        for harmonic in range(len(self.harmonics)):
+            sine = self.harmonics[harmonic][1] * (np.sin(2*math.pi*freq*self.harmonics[harmonic][0]*note_wave))
         array += sine 
         # plt.plot(note_wave, array)
         # plt.show()
@@ -70,12 +71,33 @@ class Instrument:
         # for t in range(duration*48000):
         #     if t 
         
-    def make_wave (self, freq, duration, array):
+    def make_wave (self, freq, array):
         samplerate = 48000
         amplitude = np.iinfo(np.int16).max
         data = amplitude * array
         wavwrite('sample1.wav', samplerate, data.astype(np.int16))
         
+    def set_functions(self, array, duration):
+        functions = {"CONSTANT": Modulator.constant, 
+        "LINEAR": Modulator.linear,
+        "INVLINEAR":Modulator.invlinear, 
+        "SIN":Modulator.sin, 
+        "EXP": Modulator.exp,
+        "INVEXP": Modulator.invexp, 
+        "QUARTCOS": Modulator.quartcos,
+        "QUARTSIN": Modulator.quartsin,
+        "HALFCOS": Modulator.halfcos,
+        "HALFSIN":Modulator.halfsin,
+        "LOG": Modulator.log, 
+        "INVLOG": Modulator.invlog}
+        #(self.set_mods()["Attack"][1][0:])
+        
+        t = np.arange(0,10,0.01)
+        if self.set_mods()["Attack"][0] in functions:
+            y = ( np.sin(2*math.pi*440*t)*(functions[self.set_mods()["Attack"][0]](t,self.set_mods()["Attack"][1][0])))
+            
+        plt.plot(t,y)
+        plt.show()
 
 # def main():
 #     piano = Instrument('ejemplo2', 'ejemplo2.txt') 
