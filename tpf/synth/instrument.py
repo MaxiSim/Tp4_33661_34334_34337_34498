@@ -12,11 +12,13 @@ class Instrument:
         self.name = name
         self.path = instrument_file
         self.n_harmonics = 0
+        self.mapping = self.set_notes()
         self.file = self.read_file()
         self.harmonics = self.set_harmonics()
         self.mods = self.set_mods()
         self.decay_time = self.set_decay()
-        self.functions = self.set_functions()
+        # self.functions = self.set_functions()
+        
         
         
     def read_file(self):
@@ -25,6 +27,9 @@ class Instrument:
             for line in file:
                 list.append(line.rstrip())
         return list
+    
+    def set_notes(self):
+        return notes_mapping
         
     def set_harmonics(self):
         harmonics = []
@@ -56,7 +61,7 @@ class Instrument:
         return decay_time
     
     def synthetise(self, note, length):
-        freq = 880.000
+        freq = self.mapping[note]
         duration = length + self.decay_time
         note_wave = np.arange(0,duration, 1/48000)
         array = 0
