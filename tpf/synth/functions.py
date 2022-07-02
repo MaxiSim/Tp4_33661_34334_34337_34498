@@ -72,7 +72,3 @@ class Modulators (object):
 # plt.ylabel('y axis')
 # plt.title('First graph')
 # plt.show()
-
-t = np.arange(0, 15, 0.1)
-y = 4 * math.sin(2* math.pi * 0.2 * t)
-plt(t, y)
