@@ -1,5 +1,3 @@
-from wave import Wave_write
-from more_itertools import sample
 import numpy as np
 import math
 import matplotlib.pyplot as plt

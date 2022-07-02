@@ -9,4 +9,3 @@ class song():
         
    
     
-song_data = np.array()
