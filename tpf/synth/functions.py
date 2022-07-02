@@ -2,8 +2,9 @@ import math
 import matplotlib.pyplot as plt
 import numpy as np
 
-class Modulators (object):
-    
+
+class Modulator:
+
     def constant (t: float)->float:
         return 1
 
@@ -19,11 +20,11 @@ class Modulators (object):
     def sin (a: float, t: float, f: float)->float:
         x = f*t
         return 1 + a * math.sin(x)
-    
+
     def exp (t: float, t0: float)->float:
         x = 5*(t-t0)/t0
         return math.exp(x)
-    
+
     def invexp (t: float, t0: float)->float:
         x = -5*t/t0
         return math.exp(x)
@@ -35,7 +36,7 @@ class Modulators (object):
     def quartsin (t: float, t0: float)->float:
         x = (math.pi * t) / 2 * t0
         return math.sin(x)
-    
+
     def halfcos (t: float, t0: float)->float:
         x = (math.pi * t) / t0
         return (1+ math.cos(x)) / 2
@@ -64,11 +65,5 @@ class Modulators (object):
     def pulses (a, t, t0, t1):
         x = (t/t0) + abs(t/t0)
         # ver porque creo que esta mal
+        
 
-# x = [i for i in range(100)]
-# y = [Modulators.tri(2, i, 2, 0.1) for i in x]
-# plt.plot(x, y)
-# plt.xlabel('x axis')
-# plt.ylabel('y axis')
-# plt.title('First graph')
-# plt.show()
