@@ -49,7 +49,6 @@ class Instrument:
         
         decay = self.file[self.n_harmonics+3].split(' ')
         mods["Decay"] = (decay[0], float(decay[1]))
-        
         return mods
     
     def set_decay (self):
@@ -75,12 +74,14 @@ class Instrument:
         # for t in range(duration*48000):
         #     if t 
         
-    def make_wave (self, freq, array):
+
+    def make_wave (self, freq, duration, array):
         samplerate = 48000
         amplitude = np.iinfo(np.int16).max
         data = amplitude * array
         wavwrite('sample1.wav', samplerate, data.astype(np.int16))
         
+
     def set_functions(self, array, duration):
         functions = {"CONSTANT": Modulator.constant, 
         "LINEAR": Modulator.linear,
@@ -103,11 +104,6 @@ class Instrument:
         plt.show()
 
 
-# def main():
-#     piano = Instrument('ejemplo2', 'ejemplo2.txt') 
-    
-#     print (piano.harmonics)
-    
 
 #     print (piano.mods)  
 #     print (piano.harmonics)
@@ -115,9 +111,7 @@ class Instrument:
 #     print(piano.functions) 
     
  
-    
-
-           
+   
 #     piano.synthetise()
 
 # if __name__ == '__main__':
