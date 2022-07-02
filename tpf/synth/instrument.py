@@ -1,7 +1,4 @@
-<<<<<<< HEAD
 
-=======
->>>>>>> e07e26c4cabc91ec808560d64824b6f23c578680
 import numpy as np
 import math
 import matplotlib.pyplot as plt
@@ -39,6 +36,7 @@ class Instrument:
     
     def set_mods(self):
         mods = {}
+        functions = ["CONSTANT", "LINEAR", "INVLINEAR", "SIN", "EXP", "INVEXP", "QUARTCOS", "QUARTSIN", "HALFCOS", "HALFSIN", "LOG", "INVLOG"] 
         attack = self.file[self.n_harmonics+1].split(' ')
         mods["Attack"] = (attack[0], [float(i) for i in attack[1:]])
         
@@ -51,6 +49,7 @@ class Instrument:
         
         decay = self.file[self.n_harmonics+3].split(' ')
         mods["Decay"] = (decay[0], float(decay[1]))
+        
         return mods
     
     def set_decay (self):
@@ -95,7 +94,6 @@ class Instrument:
         "HALFSIN":Modulator.halfsin,
         "LOG": Modulator.log, 
         "INVLOG": Modulator.invlog}
-        #(self.set_mods()["Attack"][1][0:])
         
         t = np.arange(0,10,0.01)
         if self.set_mods()["Attack"][0] in functions:
@@ -104,12 +102,21 @@ class Instrument:
         plt.plot(t,y)
         plt.show()
 
+
 # def main():
 #     piano = Instrument('ejemplo2', 'ejemplo2.txt') 
     
 #     print (piano.harmonics)
     
+
 #     print (piano.mods)  
+#     print (piano.harmonics)
+#     print (piano.mods)
+#     print(piano.functions) 
+    
+ 
+    
+
            
 #     piano.synthetise()
 

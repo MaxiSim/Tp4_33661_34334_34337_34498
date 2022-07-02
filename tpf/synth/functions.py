@@ -67,4 +67,3 @@ class Modulator:
         # ver porque creo que esta mal
         
 
-
