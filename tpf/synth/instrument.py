@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import functions 
 from scipy.io.wavfile import write as wavwrite
 from functions import Modulator
+from notes import notes_mapping
 
 class Instrument:
     def __init__(self, name, instrument_file):
