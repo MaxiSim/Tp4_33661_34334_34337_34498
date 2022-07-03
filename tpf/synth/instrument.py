@@ -68,7 +68,7 @@ class Instrument:
         # sine = self.harmonics[0][1] * (np.sin(2*math.pi*freq*self.harmonics[0][0]*note_wave))
         for harmonic in range(len(self.harmonics)):
             sine = self.harmonics[harmonic][1] * (np.sin(2*math.pi*freq*self.harmonics[harmonic][0]*note_wave))
-        array += sine 
+            array += sine 
         # plt.plot(note_wave, array)
         # plt.show()
         # self.modulate(array, duration)
