@@ -52,28 +52,45 @@ class Instrument:
         return mods
     
     def set_decay (self):
-        decay_time = self.mods['Decay'][1]
+        
         return decay_time
     
     def synthetise(self, note, length):
         freq = 880.000
         duration = length + self.decay_time
-        note_wave = np.arange(0,duration, 1/48000)
-        array = 0
+        note_wave = np.arange(0,int(duration*48000//1))
+        sine_array = 0
         # sine = self.harmonics[0][1] * (np.sin(2*math.pi*freq*self.harmonics[0][0]*note_wave))
         for harmonic in range(len(self.harmonics)):
             sine = self.harmonics[harmonic][1] * (np.sin(2*math.pi*freq*self.harmonics[harmonic][0]*note_wave))
-        array += sine 
+            array += sine_array 
         # plt.plot(note_wave, array)
         # plt.show()
         # self.modulate(array, duration)
-        self.make_wave(freq, duration, array)  
-    
-    def modulate (self, array, duration):
-        pass
-        # for t in range(duration*48000):
-        #     if t 
+        modulator_array = self.modulate(note_wave)
+        final_note_wave = 1 * modulator_array * sine_array
+        return final_note_wave
+        self.make_wave(freq, duration, array)
         
+    
+    def modulate (self, length_array):
+        attack_time = self.mods['Attack'][1][0]
+        decay_time = self.mods['Decay'][1]
+        if attack_time*48000//1>(len(length_array)-(int(decay_time*48000//1))):
+            attack_array = length_array[:(len(length_array)-(int(decay_time*48000//1)))]
+        else:
+            attack_array = length_array[:int(attack_time*48000//1)+1]
+            sustain_array = length_array[int(attack_time*48000//1)+1:len(length_array)-int(decay_time*48000//1+1)]
+        decay_array = length_array[len(length_array)-int(decay_time*48000//1+1):]
+        
+
+    # aca falta la multiplicacion de cada array con su funcion de modulacion
+        if sustain_array:
+            concat1 = np.concatenate((attack_array, sustain_array), axis=None)
+        else:
+            concat1 = attack_array
+        concat2 = np.concatenate((concat1, decay_array), axis=None)
+        return concat2
 
     def make_wave (self, freq, duration, array):
         samplerate = 48000
@@ -103,5 +120,17 @@ class Instrument:
         plt.plot(t,y)
         plt.show()
 
+    
+        attack_time = self.mods['Attack'][1][0]
+        decay_time = self.mods['Decay'][1]
+        sustain_time = duration-decay_time
+        attack_array = array[int(attack_time*48000//1)+1:int(sustain_time*48000//1+1)]
+        decay_array = array[int(sustain_time*48000//1+1):]
+
+        
+
 instrumento = Instrument('Piano', '/Users/brunocr/Documents/PC_Proyecto_Final/Tp_final/tpf/instruments/piano.txt')
 print(instrumento.mods)
+# Mods es diccionario que contiene tuplas con [0] nombre de la funcion en mayus, [1] una lista con los args de la funcion
+
+    

@@ -2,10 +2,10 @@ from instrument import Instrument
 import numpy as np
 
 class Song():
-    def __init__ (self, tracks):
+    def __init__ (self, sheet=1, tracks=1):
         self.freq = freq
         self.sheet = sheet
-        self.instrument = instrument
+        self.instruments = instrument
 
 class Track():
     def __init__(self, sheet_file_path, instrument) -> None:
