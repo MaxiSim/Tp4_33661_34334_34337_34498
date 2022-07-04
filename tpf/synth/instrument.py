@@ -80,7 +80,7 @@ class Instrument:
     def synthetise(self, note, length):
         freq = self.mapping[note]
         duration = length + self.decay_time
-        note_wave = np.arange(1/48000,((duration*48000//1)/48000), 1/48000)
+        note_wave = np.arange(1/48000,duration, 1/48000)
         sine_array = 0
         for harmonic in range(len(self.harmonics)):
             sine = self.harmonics[harmonic][1] * (np.sin(2*math.pi*freq*self.harmonics[harmonic][0]*note_wave))
@@ -91,21 +91,24 @@ class Instrument:
         modulator_array = self.modulate(note_wave)
         # plt.plot(modulator_array)
         # plt.show()
-        final_note_wave = 1 * modulator_array * sine_array
-        print('Note wave',len(note_wave))
-        return sine_array
+        final_note_wave = 0.01 * modulator_array * sine_array
+        # plt.plot(final_note_wave)
+        # plt.show()
+        # print('Note wave',len(note_wave))
+        return final_note_wave
 
     
     def modulate (self, length_array):
         attack_time = self.attack_param[0]
         decay_time = self.decay_time
         if (attack_time*48000)>(len(length_array)-(int(decay_time*48000))):
-            attack_array = length_array[:(len(length_array)-(int(decay_time*48000//1)))]
+            complete = False
+            attack_array = length_array[:(len(length_array)-(int(decay_time*48000)))]
         else:
             complete = True
-            attack_array = length_array[:int(attack_time*48000//1)+1]
-            sustain_array = length_array[int(attack_time*48000//1)+1:int(len(length_array)-int(decay_time*48000//1+1))]
-        decay_array = length_array[len(length_array)-int(decay_time*48000//1+1):]
+            attack_array = length_array[:int(attack_time*48000)]
+            sustain_array = length_array[int(attack_time*48000):int(len(length_array)-int(decay_time*48000))]
+        decay_array = length_array[len(length_array)-int(decay_time*48000):]
         attack_array = self.attack_func(attack_array, *self.attack_param)
         decay_array = self.decay_func(decay_array, *self.decay_param)
         # print('attack',len(attack_array))
@@ -121,11 +124,13 @@ class Instrument:
         concat2 = np.concatenate((concat1, decay_array), axis=None)
         # print('concat',len(concat2))
         # print('legnth',len(length_array))
-        # plt.plot(decay_array)
-        # plt.show()
         # plt.plot(attack_array)
         # plt.show()
-        # plt.plot(sustain_array)
+        new = sustain_array[:10]
+        print(new)
+        plt.plot( sustain_array)
+        plt.show()
+        # plt.plot(decay_array)
         # plt.show()
         return concat2
 
