@@ -13,9 +13,7 @@ class Modulator:
 
     def invlinear (t: float, t0: float)->float:
         return np.where(0<t<t0, 1-(t/t0), 0) 
-        
-        
-
+       
     def sin (a: float, t: float, f: float)->float:
         x = f*t
         return 1 + a * math.sin(x)
@@ -27,10 +25,6 @@ class Modulator:
     def invexp (t: float, t0: float)->float:
         x = -5*t/t0
         return np.exp(x)
-
-    
-
-    
 
     def quartcos (t: float, t0: float)->float:
         x = (math.pi * t) / 2 * t0
