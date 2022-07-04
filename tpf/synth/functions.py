@@ -10,10 +10,7 @@ def linear (t: float, t0: float)->float:
     return t/t0
 
 def invlinear (t: float, t0: float)->float:
-    ans = 1-(t/t0)
-    if ans < 0:
-        return 0
-    return ans
+    return np.where(0<t<t0, 1-(t/t0), 0) 
 
 def sin (a: float, t: float, f: float)->float:
     x = f*t
@@ -46,31 +43,18 @@ def halfsin (t: float, t0: float)->float:
 
 def log (t: float, t0: float)->float:
     x = (9 * t / t0) + 1
-    return np.log(x, 10)
+    return np.log10(x)
 
 def invlog (t: float, t0: float)->float:
-    if t>=t0:
-        return 0
-    else:
         x = (-9 * t / t0) + 10
-        return np.log(x, 10)
-
+        return np.where(t>=t0, 0, np.log10(x) )
+     
 def tri (a, t, t1, t0):
-    if t < t1:
-        return (t * a) / t1
-    else:
-        return ((t-t1)/(t1-t0))+a
-
+    return np.where(t < t1, (t * a) / t1, ((t-t1)/(t1-t0))+a )
+    
 def pulses (a, t, t0, t1):
     x = (t/t0) + abs(t/t0)
-    # ver porque creo que esta mal
-    
-def isfloat(x):
-    try:
-        float(x)
-        return True
-    except ValueError:
-        return False
+    return np.where(1 > x, x, 1) 
     
     
 # set functions
@@ -102,4 +86,11 @@ decay = {
     'INVLOG' : invlog, 
 }
 
+# validate floats
+def isfloat(x):
+    try:
+        float(x)
+        return True
+    except ValueError:
+        return False
     
