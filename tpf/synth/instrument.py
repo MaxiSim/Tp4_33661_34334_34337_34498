@@ -10,13 +10,15 @@ from notes import notes_mapping
 class Instrument:
     def __init__(self, name, instrument_file):
         self.name = name
-        self.path = instrument_file
+        self.path = "c:/Users/Usuario/Pensamiento_Computacional/tps/Tp_final/tpf/instruments/ejemplo.txt"
         self.n_harmonics = 0
         self.file = self.read_file()
         self.harmonics = self.set_harmonics()
         self.mods = self.set_mods()
         self.decay_time = self.set_decay()
-        self.functions = self.set_functions()
+        
+        self.array = self.synthetise()
+        self.functions = self.set_functions(self.array)
         
         
     def read_file(self):
@@ -63,12 +65,14 @@ class Instrument:
         # sine = self.harmonics[0][1] * (np.sin(2*math.pi*freq*self.harmonics[0][0]*note_wave))
         for harmonic in range(len(self.harmonics)):
             sine = self.harmonics[harmonic][1] * (np.sin(2*math.pi*freq*self.harmonics[harmonic][0]*note_wave))
-        array += sine 
+            array += sine 
         # plt.plot(note_wave, array)
         # plt.show()
         # self.modulate(array, duration)
+        
         self.make_wave(freq, duration, array)  
-    
+        return array
+
     def modulate (self, array, duration):
         pass
         # for t in range(duration*48000):
@@ -80,9 +84,12 @@ class Instrument:
         amplitude = np.iinfo(np.int16).max
         data = amplitude * array
         wavwrite('sample1.wav', samplerate, data.astype(np.int16))
+
+    def str(self):
+        return str(self.functions) and  str(self.mods)
         
 
-    def set_functions(self, array, duration):
+    def set_functions(self, array):
         functions = {"CONSTANT": Modulator.constant, 
         "LINEAR": Modulator.linear,
         "INVLINEAR":Modulator.invlinear, 
@@ -94,28 +101,56 @@ class Instrument:
         "HALFCOS": Modulator.halfcos,
         "HALFSIN":Modulator.halfsin,
         "LOG": Modulator.log, 
-        "INVLOG": Modulator.invlog}
+        "INVLOG": Modulator.invlog,
+        "TRI":Modulator.tri}
         
-        t = np.arange(0,10,0.01)
+        
         if self.set_mods()["Attack"][0] in functions:
-            y = ( np.sin(2*math.pi*440*t)*(functions[self.set_mods()["Attack"][0]](t,self.set_mods()["Attack"][1][0])))
-            
-        plt.plot(t,y)
+            attack_array = array[0:int(self.set_mods()["Attack"][1][0]+1)]
+            if len(self.mods()["Attack"][1]) > 1:
+                y =  self.array*(functions[self.set_mods()["Attack"][0]](attack_array,self.set_mods()["Attack"][1][0],self.set_mods()["Attack"][1][1],self.set_mods()["Attack"][1][2]))
+            else:
+                y =  self.array*(functions[self.set_mods()["Attack"][0]](attack_array,self.set_mods()["Attack"][1][0]))
+
+        if self.set_mods()["Sustain"][0] in functions:
+            sustain_array = array[int(self.set_mods()["Attack"][1][0]):self.set_mods()["Decay"][1]]
+            if len (self.mods()["Sustain"])== 3:
+                x =  self.array*(functions[self.set_mods()["Sustain"][0]](sustain_array,self.set_mods()["Sustain"][1][0],self.set_mods()["Sustain"][1][1],self.set_mods()["Sustain"][1][2]))
+            elif len(self.mods()["Sustain"])==2:
+                x =  self.array*(functions[self.set_mods()["Sustain"][0]](sustain_array,self.set_mods()["Sustain"][1][0],self.set_mods()["Sustain"][1][1]))
+            elif len(self.mods()["Sustain"])==1:
+                x =  self.array*(functions[self.set_mods()["Sustain"][0]](sustain_array,self.set_mods()["Sustain"][1][0]))
+            else:
+                x =  self.array*(functions[self.set_mods()["Sustain"][0]](sustain_array))
+
+        if self.set_mods()["Decay"][0] in functions:
+            decay_array = array[self.set_mods()["Decay"][1]:]
+            w = self.aray*(functions[self.set_mods()["Decay"][0]](decay_array,self.set_mods()["Decay"][1]))
+
+        z = np.concatenate((y, x))
+        a = np.concatenate((z, w))
+
+        plt.plot(self.array,a)
         plt.show()
 
+        
 
+def main():
+
+    piano = Instrument( "piano", "ejemplo.txt")
+    print(piano.functions) 
 
 #     print (piano.mods)  
 #     print (piano.harmonics)
 #     print (piano.mods)
-#     print(piano.functions) 
+   
     
  
    
 #     piano.synthetise()
 
-# if __name__ == '__main__':
-#     main()
+if __name__ == '__main__':
+     main()
 
                     
     
