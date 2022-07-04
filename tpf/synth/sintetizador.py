@@ -2,10 +2,10 @@ from instrument import Instrument
 import numpy as np
 
 class Song():
-    def __init__ (self, tracks):
+    def __init__ (self, sheet=1, tracks=1):
         self.freq = freq
         self.sheet = sheet
-        self.instrument = instrument
+        self.instruments = instrument
 
 class Track():
     def __init__(self, sheet_file_path, instrument) -> None:
@@ -24,7 +24,6 @@ class Track():
                 temp[2] = float(temp[2])
                 sheet_list.append(temp)
         return sheet_list
-   
     
     def set_track_duration (self):
         duration = 0
@@ -34,10 +33,15 @@ class Track():
         return duration + self.instrument.decay_time
 
     def create_track_array (self):
-        track_array = np.arange(0, self.duration, 1/48000)
+        track_array = np.zeros(int(self.duration*48000//1))
         for note in self.sheet:
-            note_array = self.instrument.synthetise(note[1], note[2])
-            track_array(note[0]*48000, (note[0]+note[2])*48000)+=note_array
+            note_array = self.instrument.synthetise(note[1], (note[2]*48000//1)/48000)
+            pre_note_array = np.zeros(int(note[0]*48000//1))
+            post_note_len= ((self.duration-(note[0]+note[2]))*48000//1)/48000
+            post_note_array = np.zeros(int(post_note_len*48000))
+            a = np.concatenate((pre_note_array, note_array), axis=None)
+            b = np.concatenate((a, post_note_array), axis=None)
+            track_array+=b
         return track_array
 
 
