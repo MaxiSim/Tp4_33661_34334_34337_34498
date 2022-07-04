@@ -17,13 +17,14 @@ def main() -> None:
     # Parsing of the arguments
     args = parser.parse_args()
     instrument_name = args.instrument_name
-    instrument_name = Instrument(args.instrument_name, args.instrument)
+    instrument_name = Instrument(args.instrument_name, args.instrument, args.output)
+    instrument_name.read_file()
     
     # print(instrument_name.harmonics)
     
     # print(instrument_name.mods)
     
-    instrument_name.synthetise('B2', 2.0)
+    instrument_name.synthetise('A3', 2.0)
     # instrument_name.set_functions()
 
 if __name__ == '__main__':
