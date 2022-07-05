@@ -2,6 +2,7 @@ import numpy as np
 import math
 import functions 
 from notes import notes_mapping
+import matplotlib.pyplot as plt
 
 
 class Instrument:
@@ -101,12 +102,12 @@ class Instrument:
         for harmonic in range(len(self.harmonics)):
             sine = self.harmonics[harmonic][1] * (np.sin(2*math.pi*freq*self.harmonics[harmonic][0]*note_wave))
             sine_array += sine 
-        modulator_array = self.modulate(note_wave)
+        modulator_array = self.modulate(note_wave, length)
         final_note_wave = 0.007 * modulator_array * sine_array
         return final_note_wave
 
     
-    def modulate (self, length_array):
+    def modulate (self, length_array, length):
         """
         The modulate function modulates the note.
     
@@ -116,7 +117,8 @@ class Instrument:
         """
         attack_time = self.attack_param[0]
         decay_time = self.decay_time
-        if (attack_time*48000)>(len(length_array)-(int(decay_time*48000))):
+        sustain_time = length - attack_time 
+        if sustain_time <= 0:
             complete = False
             attack_array = length_array[:(len(length_array)-(int(decay_time*48000)))]
         else:
@@ -126,14 +128,15 @@ class Instrument:
 
         decay_array = np.arange(1/48000, decay_time+1/48000, 1/48000)
         attack_array = self.attack_func(attack_array, *self.attack_param)
-        decay_array = self.decay_func(decay_array, *self.decay_param)
 
         if complete:
             sustain_array = self.sustain_func(sustain_array, *self.sustain_param)
             concat1 = np.concatenate((attack_array, sustain_array), axis=None)
+            decay_array = self.decay_func(decay_array, *self.decay_param) * sustain_array[-1]
             
         else:
             concat1 = attack_array
+            decay_array = self.decay_func(decay_array, *self.decay_param) * attack_array[-1]
         concat2 = np.concatenate((concat1, decay_array), axis=None)
 
         return concat2

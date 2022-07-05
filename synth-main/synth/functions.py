@@ -14,7 +14,7 @@ def constant (t: float, x = 1 )->float:
     :param x=1: Indicate that the constant function is used to represent a constant value.
     :return: Array of 1s of the same length as t
     """
-    return np.ones_like(t) 
+    return np.ones_like(t) * x
 
 def linear (t: float, t0: float)->float:
     """
@@ -90,7 +90,7 @@ def quartsin (t: float, t0: float)->float:
     :param t0:float: Parameter that is used by the function.
     :return: The sine function for a determined time range.
     """
-    x = (np.pi * t) / 2 * t0
+    x = (np.pi * t) / (2 * t0)
     return np.sin(x)
     
 def halfcos (t: float, t0: float)->float:
@@ -138,7 +138,7 @@ def invlog (t: float, t0: float)->float:
     x = (-9 * t / t0) + 10
     return np.where(t>=t0, 0, np.log10(x) )
      
-def tri (t, a, t1, t0):
+def tri (t, t0, t1, a):
     """
     The tri function returns a value depending on weather t is bigger than t1 or not.
     
@@ -148,9 +148,9 @@ def tri (t, a, t1, t0):
     :param t0:float: Parameter that is used by the function.
     :return: The values of t evaluated in the function depending on weather t is bigger than t1 or not.
     """
-    return np.where(t < t1, (t * a) / t1, ((t-t1)/(t1-t0))+a )
+    return np.where(t <= t1, ((t*a) / t1), (((a-1)/(t1-t0))*t) + (1-(((a-1)*t0)/(t1-t0))))
     
-def pulses (t, a, t0, t1):
+def pulses (t, t0, t1, a):
     """
     The pulses function returns a value depending the result of the equation y bigger than 1 or not.
     
