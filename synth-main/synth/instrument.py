@@ -2,7 +2,6 @@ import numpy as np
 import math
 import functions 
 from notes import notes_mapping
-import matplotlib.pyplot as plt
 
 
 class Instrument:

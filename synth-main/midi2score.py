@@ -11,7 +11,6 @@ from notes import notes_mapping
 import argparse
 import math
 from typing import Optional, IO
-
 import mido
 
 
