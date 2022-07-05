@@ -22,6 +22,12 @@ class Instrument:
         
         
     def read_file(self):
+        """
+        The read_file function reads the instrument setup file, validates it, and sets up the instrument object.
+    
+        :param self: The instrument object.
+        :return: None
+        """
         with open(self.path, 'rt') as file:
             # set number of harmonics
             n_harmonics = file.readline().rstrip()
@@ -79,6 +85,15 @@ class Instrument:
             
         
     def synthetise(self, note, length):
+        """
+        The synthetise function creates the array with each note.
+        It also calls the function to modulate the note.
+        
+        :param self: The instrument object.
+        :param note: The note to be created.
+        :param length: The length of the note.
+        return: The array with the modulated note.
+        """
         freq = self.mapping[note]
         duration = length + self.decay_time
         note_wave = np.arange(1/48000,duration, 1/48000)
@@ -92,6 +107,13 @@ class Instrument:
 
     
     def modulate (self, length_array):
+        """
+        The modulate function modulates the note.
+    
+        :param self: The instrument object.
+        :param length_array: The array with the timeframe for the note.
+        return: The array with the modulated timeframe of the note.
+        """
         attack_time = self.attack_param[0]
         decay_time = self.decay_time
         if (attack_time*48000)>(len(length_array)-(int(decay_time*48000))):
@@ -118,10 +140,23 @@ class Instrument:
 
     
     def set_attck(self, func_name, param):
+        """
+        The set_attck function sets the attack function and its parameters.
+        
+        :param self: The instrument object.
+        :param func_name: The attack function.
+        :param param: The parameters of the attack function.
+        return: None
+        """
         self.attack_func = func_name
         self.attack_param = param 
             
     def set_sustain(self, func_name, param):
+        """
+        The set_sustain function sets the sustain function and its parameters.
+        
+        
+        """
         self.sustain_func = func_name
         self.sustain_param = param
     
