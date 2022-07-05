@@ -3,7 +3,7 @@ from cmath import cos
 import matplotlib.pyplot as plt
 import numpy as np
 
-def constant (t: float, x = 1 )->float:
+def constant (t: float, param, x = 1 )->float:
     return np.ones_like(t) * x
 
 def linear (t: float, t0: float)->float:
@@ -11,10 +11,10 @@ def linear (t: float, t0: float)->float:
 
 def invlinear (t: float, t0: float)->float:
     # return np.where(1-(t/t0)<0, 0, 1-(t/t0))
-    return np.where(t<t0, 0, 1-(t/t0))
+    return np.where(t>t0, 0, 1-(t/t0))
 # 2.615
 
-def sin (t: float, a: float, f: float)->float:
+def sin (t: float, param,  a: float, f: float)->float:
     x = f*t
     return 1 + a * np.sin(x)
 
@@ -27,11 +27,11 @@ def invexp (t: float, t0: float)->float:
     return np.exp(x)
 
 def quartcos (t: float, t0: float)->float:
-    x = (np.pi * t) / 2 * t0
+    x = (np.pi * t) / (2 * t0)
     return np.cos(x)
 
 def quartsin (t: float, t0: float)->float:
-    x = (np.pi * t) / 2 * t0
+    x = (np.pi * t) / (2 * t0)
     return np.sin(x)
     
 def halfcos (t: float, t0: float)->float:
@@ -51,10 +51,14 @@ def invlog (t: float, t0: float)->float:
         x = (-9 * t / t0) + 10
         return np.where(t>=t0, 0, np.log10(x) )
      
-def tri (t, a, t1, t0):
-    return np.where(t < t1, (t * a) / t1, ((t-t1)/(t1-t0))+a )
+def tri (t, t0, t1, a):
+    # if t<=t1:
+    #     return (t * a) / t1
     
-def pulses (t, a, t0, t1):
+
+    return np.where(t <= t1, ((t * a) / t1), (((a-1)/(t1-t0))*t) + (1-(((a-1)*t0)/(t1-t0))))
+    
+def pulses (t, t0, t1, a):
     x = (1-a / t1) * (t - t0 + t1)
     return np.where(1 > x, x, 1) 
     

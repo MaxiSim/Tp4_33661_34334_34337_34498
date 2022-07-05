@@ -88,44 +88,51 @@ class Instrument:
         for harmonic in range(len(self.harmonics)):
             sine = self.harmonics[harmonic][1] * (np.sin(2*math.pi*freq*self.harmonics[harmonic][0]*note_wave))
             sine_array += sine 
-        modulator_array = self.modulate(note_wave)
+        modulator_array = self.modulate(note_wave, length)
         plt.plot(modulator_array)
         plt.show()
         final_note_wave = 0.007 * modulator_array * sine_array
-        plt.plot(final_note_wave)
-        plt.show()
+        # plt.plot(final_note_wave)
+        # plt.show()
         # print('Note wave',len(note_wave))
         return final_note_wave
         # return 0.007 * sine_array
 
     
-    def modulate (self, length_array):
+    def modulate (self, length_array, length):
         attack_time = self.attack_param[0]
         decay_time = self.decay_time
-        if (attack_time*48000)>(len(length_array)-(int(decay_time*48000))):
+        sustain_time = length-self.attack_param[0]
+        # if (attack_time*48000)>(len(length_array)-(int(decay_time*48000))):
+        if sustain_time <=0:
             complete = False
             attack_array = length_array[:(len(length_array)-(int(decay_time*48000)))]
         else:
             complete = True
             attack_array = length_array[:int(attack_time*48000)]
             sustain_array = length_array[int(attack_time*48000):int(len(length_array)-int(decay_time*48000))]
-        decay_array = length_array[len(length_array)-int(decay_time*48000):]
-        # decay_array = np.arange(0, decay_time, 1/48000)
+        # decay_array = length_array[len(length_array)-int(decay_time*48000):]
+        decay_array = np.arange(1/48000, decay_time+1/48000, 1/48000)
         attack_array = self.attack_func(attack_array, *self.attack_param)
-        decay_array = self.decay_func(decay_array, *self.decay_param)
+        # decay_array = () * self.decay_func(decay_array, *self.decay_param)
 
         if complete:
+            # *self.sustain_param
             sustain_array = self.sustain_func(sustain_array, *self.sustain_param)
+            decay_array = (sustain_array[-1]) * self.decay_func(decay_array, *self.decay_param)
             concat1 = np.concatenate((attack_array, sustain_array), axis=None)
+            plt.plot(attack_array)
+            plt.show()
             # plt.plot(concat1)
             # plt.show()
             
         else:
             concat1 = attack_array
+            decay_array = (attack_array[-1]) * self.decay_func(decay_array, *self.decay_param)
         concat2 = np.concatenate((concat1, decay_array), axis=None)
         # plt.plot(concat2)
         # plt.show()
-        # plt.plot( sustain_array)
+        # plt.plot(attack_array)
         # plt.show()
         # plt.plot(decay_array)
         # plt.show()

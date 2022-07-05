@@ -50,6 +50,8 @@ class Track():
         track_array = np.zeros(int(self.duration*48000))
         n = 0
         for note in self.sheet:
+            if note[2] == 0:
+                continue
             note_array = self.instrument.synthetise(note[1], (note[2]))
             pre_note_array = np.zeros(int(note[0]*48000))
             post_note_len = (self.duration-(note[0]+note[2]+self.instrument.get_decay_time()))
@@ -74,5 +76,5 @@ class Track():
             
             track_array += b
             n += 1
-            print((n/len(self.sheet))*100, '%')
+            print((n/len(self.sheet))*100, '%', n)
         return track_array
