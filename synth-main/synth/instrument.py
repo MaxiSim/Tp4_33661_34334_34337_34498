@@ -2,6 +2,7 @@ import numpy as np
 import math
 import functions 
 from notes import notes_mapping
+import matplotlib.pyplot as plt
 
 
 class Instrument:
@@ -155,25 +156,60 @@ class Instrument:
         """
         The set_sustain function sets the sustain function and its parameters.
         
-        
+        :param self: The instrument object.
+        :param func_name: The sustain function.
+        :param param: The parameters of the sustain function.
+        return: None
         """
         self.sustain_func = func_name
         self.sustain_param = param
     
     def set_decay(self, func_name, param):
+        """
+        The set_decay function sets the decay function and its parameters.
+        
+        :param self: The instrument object.
+        :param func_name: The decay function.
+        :param param: The parameters of the decay function.
+        return: None
+        """
         self.decay_func = func_name
         self.decay_param.append(param)
     
     def get_decay_time(self):
+        """
+        The get_decay_time function returns the decay time of the instrument.
+        
+        :param self: The instrument object.
+        return: The decay time of the instrument.
+        """
         return self.decay_time  
       
     def get_attck(self):
+        """
+        The get_attck function returns the attack function and its parameters.
+        
+        :param self: The instrument object.
+        return: The attack function and its parameters.
+        """
         return self.attack_func, self.attack_param
     
     def get_sustain(self):
+        """
+        The get_sustain function returns the sustain function and its parameters.
+        
+        :param self: The instrument object.
+        return: The sustain function and its parameters.
+        """
         return self.sustain_func, self.sustain_param
     
     def get_decay(self):
+        """
+        The get_decay function returns the decay function and its parameters.
+        
+        :param self: The instrument object.
+        return: The decay function and its parameters.
+        """
         return self.decay_func, self.decay_param
     
     def __str__ (self):

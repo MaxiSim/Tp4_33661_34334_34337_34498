@@ -20,14 +20,32 @@ class Track():
         self.track_array = self.create_track_array()
         
     def get_array (self):
+        """
+        The get_array function returns the track array.
+        
+        :param self: The track object.
+        return: The track array.
+        """
         return self.track_array
     
     
     def set_instrument (self):
+        """
+        The set_instrument function sets the instrument object.
+        
+        :param self: The track object.
+        return: The instrument object.
+        """
         return Instrument(self.instrument_name, self.instrument_file)
     
         
     def read_sheet_file (self):
+        """
+        The read_sheet_file function reads the sheet file, validates it, and processes the music sheet.
+        
+        :param self: The track object.
+        return: The procesed music sheet.
+        """
         sheet_list = []
         with open (self.sheet_path, 'rt') as sheet:
             for line in sheet:
@@ -42,6 +60,12 @@ class Track():
     
     
     def set_track_duration (self):
+        """
+        The set_track_duration function sets the track duration.
+        
+        :param self: The track object.
+        return: The track duration.
+        """
         duration = 0
         for note in self.sheet:
             if note[0]+note[2] > duration:
@@ -52,6 +76,12 @@ class Track():
 
 
     def create_track_array (self):
+        """
+        The create_track_array function creates the track array.
+        
+        :param self: The track object.
+        return: The track array.
+        """
         track_array = np.zeros(int(self.duration*48000))
         n = 0
         for note in self.sheet:

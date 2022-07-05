@@ -50,4 +50,6 @@ def test_tri1():
 def test_tri2():
     if functions.tri(4, 2, 3, 1) != (5/2):
         assert False
-        
+def test_tri3():
+    if functions.tri(1, 2, 0.7, 1) != 1:
+        assert False

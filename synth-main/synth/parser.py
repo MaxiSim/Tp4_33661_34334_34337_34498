@@ -2,7 +2,11 @@ import argparse
 from synthetizer import Track
 import waver
 
-def main() -> None:
+def main():
+    """
+    The main function.
+    Runs the program.
+    """
     # Initialize argparse object
     parser = argparse.ArgumentParser(description='Recieves the input and output files, in order to run the program.')
     
