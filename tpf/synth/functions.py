@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 def constant (t: float, x )->float:
-    return 1
+    return t*1
 
 def linear (t: float, t0: float)->float:
     return t/t0

@@ -85,9 +85,6 @@ class Instrument:
         for harmonic in range(len(self.harmonics)):
             sine = self.harmonics[harmonic][1] * (np.sin(2*math.pi*freq*self.harmonics[harmonic][0]*note_wave))
             sine_array += sine 
-        
-        # print(len(sine_array))
-        # print(len(note_wave))
         modulator_array = self.modulate(note_wave)
         # plt.plot(modulator_array)
         # plt.show()
@@ -126,16 +123,15 @@ class Instrument:
         # print('legnth',len(length_array))
         # plt.plot(attack_array)
         # plt.show()
-        new = sustain_array[:10]
-        print(new)
-        plt.plot( sustain_array)
-        plt.show()
+        # new = sustain_array[:10]
+        # print(new)
+        # plt.plot( sustain_array)
+        # plt.show()
         # plt.plot(decay_array)
         # plt.show()
         return concat2
 
-    def get_decay_time(self):
-        return self.decay_time
+    
     
     def set_attck(self, func_name, param):
         self.attack_func = func_name
@@ -148,6 +144,18 @@ class Instrument:
     def set_decay(self, func_name, param):
         self.decay_func = func_name
         self.decay_param.append(param)
+    
+    def get_decay_time(self):
+        return self.decay_time  
+      
+    def get_attck(self):
+        return self.attack_func, self.attack_param
+    
+    def get_sustain(self):
+        return self.sustain_func, self.sustain_param
+    
+    def get_decay(self):
+        return self.decay_func, self.decay_param
     
     def __str__ (self):
         return self.name
