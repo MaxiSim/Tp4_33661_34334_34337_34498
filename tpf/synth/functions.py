@@ -16,6 +16,7 @@ def sin (a: float, t: float, f: float)->float:
     x = f*t
     return 1 + a * np.sin(x)
 
+
 def exp (t: float, t0: float)->float:
     x = 5*(t-t0)/t0
     return np.exp(x)

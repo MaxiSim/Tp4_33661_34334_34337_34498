@@ -9,7 +9,7 @@ from notes import notes_mapping
 class Instrument:
     def __init__(self, name, instrument_file):
         self.name = name
-        self.path = instrument_file
+        self.path = "c:/Users/Usuario/Pensamiento_Computacional/tps/Tp_final/tpf/instruments/ejemplo.txt"
         self.n_harmonics = 0
         self.mapping = notes_mapping 
         self.harmonics = []
@@ -21,6 +21,7 @@ class Instrument:
         self.decay_param = []
         self.decay_time = 0
         self.file = self.read_file()
+
         
         
     def read_file(self):
@@ -84,6 +85,7 @@ class Instrument:
         sine_array = 0
         for harmonic in range(len(self.harmonics)):
             sine = self.harmonics[harmonic][1] * (np.sin(2*math.pi*freq*self.harmonics[harmonic][0]*note_wave))
+
             sine_array += sine 
         modulator_array = self.modulate(note_wave)
         # plt.plot(modulator_array)
@@ -160,5 +162,6 @@ class Instrument:
     def __str__ (self):
         return self.name
         
+
                     
     

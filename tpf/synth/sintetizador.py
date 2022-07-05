@@ -2,11 +2,13 @@ from instrument import Instrument
 import numpy as np
 import matplotlib.pyplot as plt
 
+
 # class Song():
 #     def __init__ (self, sheet=1, tracks=1):
 #         self.freq = freq
 #         self.sheet = sheet
 #         self.instruments = instrument
+
 
 class Track():
     def __init__(self, sheet_file_path, instrument_name, instrument_file):
@@ -76,3 +78,4 @@ class Track():
             n += 1
             print((n/len(self.sheet))*100, '%')
         return track_array
+
