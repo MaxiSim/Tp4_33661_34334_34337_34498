@@ -1,10 +1,10 @@
-from synth import functions
+import functions
 import numpy as np
 # from synth import instrument
 
 # class TestMods:
 def test_constant():
-    if functions.constant(0, 3) != 1:
+    if functions.constant(0, 1) != np.ones_like(0) * 1:
         assert False
 def test_linear():
     if functions.linear(0, 1) != 0:

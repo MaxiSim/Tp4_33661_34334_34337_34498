@@ -50,20 +50,24 @@ class Instrument:
                 self.set_attck(a, param)
             else:
                 raise Exception ("Error: attack function not defined or has wrong parameters")
+            
             # sustain
             sustain = file.readline().rstrip()
             if ' ' in sustain:
                 sustain = sustain.split(' ')
-                if sustain[0] in functions.sustain and len(sustain) <= 2 and all(functions.isfloat(x) for x in sustain[1:]):
+                if sustain[0] in functions.sustain and len(sustain) >= 2 and all(functions.isfloat(x) for x in sustain[1:]):
                     c = functions.sustain[sustain[0]]
                     param = ([float(i) for i in sustain[1:]])
                     self.set_sustain(c, param)
+                else:
+                    raise Exception ("Error: sustain1 function not defined or has wrong parameters")
             elif ' ' not in sustain and sustain in functions.sustain:
                 c = functions.sustain[sustain]
                 param = [1]
                 self.set_sustain(c, param)
             else:
-                raise Exception ("Error: sustain function not defined or has wrong parameters")
+                raise Exception ("Error: sustain2 function not defined or has wrong parameters")
+           
             # decay
             decay = file.readline().rstrip().split(' ')
             if decay[0] in functions.decay and len(decay) == 2 and functions.isfloat(decay[1]):
@@ -71,7 +75,6 @@ class Instrument:
                 param = float(decay[1])
                 self.set_decay(d, param)
                 self.decay_time = param
-            
             else:
                 raise Exception ("Error: decay function not defined or has wrong parameters")
             
@@ -86,13 +89,14 @@ class Instrument:
             sine = self.harmonics[harmonic][1] * (np.sin(2*math.pi*freq*self.harmonics[harmonic][0]*note_wave))
             sine_array += sine 
         modulator_array = self.modulate(note_wave)
-        # plt.plot(modulator_array)
-        # plt.show()
-        final_note_wave = 0.01 * modulator_array * sine_array
-        # plt.plot(final_note_wave)
-        # plt.show()
+        plt.plot(modulator_array)
+        plt.show()
+        final_note_wave = 0.007 * modulator_array * sine_array
+        plt.plot(final_note_wave)
+        plt.show()
         # print('Note wave',len(note_wave))
         return final_note_wave
+        # return 0.007 * sine_array
 
     
     def modulate (self, length_array):
@@ -106,25 +110,21 @@ class Instrument:
             attack_array = length_array[:int(attack_time*48000)]
             sustain_array = length_array[int(attack_time*48000):int(len(length_array)-int(decay_time*48000))]
         decay_array = length_array[len(length_array)-int(decay_time*48000):]
+        # decay_array = np.arange(0, decay_time, 1/48000)
         attack_array = self.attack_func(attack_array, *self.attack_param)
         decay_array = self.decay_func(decay_array, *self.decay_param)
-        # print('attack',len(attack_array))
-        # print('decay',len(decay_array))
-        # aca falta la multiplicacion de cada array con su funcion de modulacion
+
         if complete:
             sustain_array = self.sustain_func(sustain_array, *self.sustain_param)
             concat1 = np.concatenate((attack_array, sustain_array), axis=None)
-            # print('sustain',len(sustain_array))
-            # print('concat1',len(concat1))
+            # plt.plot(concat1)
+            # plt.show()
+            
         else:
             concat1 = attack_array
         concat2 = np.concatenate((concat1, decay_array), axis=None)
-        # print('concat',len(concat2))
-        # print('legnth',len(length_array))
-        # plt.plot(attack_array)
+        # plt.plot(concat2)
         # plt.show()
-        # new = sustain_array[:10]
-        # print(new)
         # plt.plot( sustain_array)
         # plt.show()
         # plt.plot(decay_array)

@@ -3,16 +3,18 @@ from cmath import cos
 import matplotlib.pyplot as plt
 import numpy as np
 
-def constant (t: float, x )->float:
-    return t*1
+def constant (t: float, x = 1 )->float:
+    return np.ones_like(t) * x
 
 def linear (t: float, t0: float)->float:
     return t/t0
 
 def invlinear (t: float, t0: float)->float:
-    return np.where(0<t<t0, 1-(t/t0), 0) 
+    # return np.where(1-(t/t0)<0, 0, 1-(t/t0))
+    return np.where(t<t0, 0, 1-(t/t0))
+# 2.615
 
-def sin (a: float, t: float, f: float)->float:
+def sin (t: float, a: float, f: float)->float:
     x = f*t
     return 1 + a * np.sin(x)
 
@@ -49,11 +51,11 @@ def invlog (t: float, t0: float)->float:
         x = (-9 * t / t0) + 10
         return np.where(t>=t0, 0, np.log10(x) )
      
-def tri (a, t, t1, t0):
+def tri (t, a, t1, t0):
     return np.where(t < t1, (t * a) / t1, ((t-t1)/(t1-t0))+a )
     
-def pulses (a, t, t0, t1):
-    x = (t/t0) + abs(t/t0)
+def pulses (t, a, t0, t1):
+    x = (1-a / t1) * (t - t0 + t1)
     return np.where(1 > x, x, 1) 
     
     
