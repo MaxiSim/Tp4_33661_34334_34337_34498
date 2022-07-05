@@ -10,7 +10,9 @@ class Xylophone:
         
     def read_note(self):
         """
-        Reads the note from the note file.
+        Reads the note from the note file and saves a list of the notes and their starting time.
+        
+        returns: list of notes and their starting time
         """
         notes_list = []
         with open (self.notefile, 'rt') as file:
@@ -27,7 +29,9 @@ class Xylophone:
     
     def set_notes(self):
         """
-        Sets the notes.
+        Sets the notes in a format that is compatible with the xylophone.
+        
+        returns: list of xylophone notes
         """
         notes = []
         for note in self.note_list:

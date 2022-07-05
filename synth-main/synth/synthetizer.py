@@ -3,11 +3,6 @@ import numpy as np
 import functions
 from notes import notes_mapping
 
-# class Song():
-#     def __init__ (self, sheet=1, tracks=1):
-#         self.freq = freq
-#         self.sheet = sheet
-#         self.instruments = instrument
 
 class Track():
     def __init__(self, sheet_file_path, instrument_name, instrument_file):
