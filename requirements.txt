@@ -1,6 +1,5 @@
 mido
 numpy
-math
 argparse
 scipy
 pytest

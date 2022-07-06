@@ -1,5 +1,4 @@
 import numpy as np
-import math
 import functions 
 from notes import notes_mapping
 
@@ -99,7 +98,7 @@ class Instrument:
         note_wave = np.arange(1/48000,duration, 1/48000)
         sine_array = 0
         for harmonic in range(len(self.harmonics)):
-            sine = self.harmonics[harmonic][1] * (np.sin(2*math.pi*freq*self.harmonics[harmonic][0]*note_wave))
+            sine = self.harmonics[harmonic][1] * (np.sin(2*np.pi*freq*self.harmonics[harmonic][0]*note_wave))
             sine_array += sine 
         modulator_array = self.modulate(note_wave, length)
         final_note_wave = 0.007 * modulator_array * sine_array
