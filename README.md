@@ -26,8 +26,8 @@ To start, the user needs to install the modules needed for the program to work.
     (-f "frequency" is optional and default is 48000, in case another frequency is needed, -f "frequency" should be the last argument)
     (python/python3 depending on the OS)
 
-    4) The program will generate a wave file with the name "filename.wav". This file will be in the folder "wavefiles", and is the one 
-    that the user will use to play the song, with a wave player.
+    4) The program will generate a wave file with the name "filename.wav". This file will be in the folder "wavefiles", 
+    and is the one that the user will use to play the song, with a wave player.
 
 Xylophone:
 -- In order to communicate with the real xylophone:
