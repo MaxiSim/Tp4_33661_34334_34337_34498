@@ -2,7 +2,7 @@
 
 To start, the user needs to install the modules needed for the program to work. 
 
-1) cd path/to/Tp_final
+1) cd path/to/Tp_final-main (or open the folder directly in the terminal)
 
 2) Install the dependencies: 
     pip install -r requirements.txt
@@ -17,24 +17,24 @@ To start, the user needs to install the modules needed for the program to work.
 
 -- In order to use the parser and run the program:
 
-    1) Open a terminal
+    In the same terminal as before
 
-    2) cd path/to/Tp_final/synth-main
+    1) $ cd synth-main
 
-    3) Run the program:
-        $ python main.py -sn "song_name" -in "instrument_name" -p scores/filename.txt -i instruments/filename.txt -o wavefiles/filename.txt 
+    2) Run the program:
+        $ python synth/parser.py -sn "song_name" -in "instrument_name" -p scores/filename.txt -i instruments/filename.txt -o wavefiles/filename.txt 
     (-f "frequency" is optional and default is 48000, in case another frequency is needed, -f "frequency" should be the last argument)
     (python/python3 depending on the OS)
 
-    4) The program will generate a wave file with the name "filename.wav". This file will be in the folder "wavefiles", 
+    3) The program will generate a wave file with the name "filename.wav". This file will be in the folder "wavefiles", 
     and is the one that the user will use to play the song, with a wave player.
 
 Xylophone:
 -- In order to communicate with the real xylophone:
 
-    1) Open a terminal
+    1) In the terminal, go back to the Tp_final-main folder
 
-    2) cd path/to/Tp_final/xylophone-main/main
+    2) $ cd xylophone-main/main
 
     3) Run the program:
         $ python3 main_server.py
