@@ -1,14 +1,11 @@
 # Tp_final
 
-To start, the user needs to install the modules needed for the program to work. 
+-- To start, the user needs to install the modules needed for the program to work. 
 
-1) cd path/to/Tp_final-main (or open the folder directly in the terminal)
+    1) cd path/to/Tp_final-main (or open the folder directly in the terminal)
 
-2) Install the dependencies: 
-    pip install -r requirements.txt
-
-3) Install it with pip:
-    $ pip install .
+    2) Install the dependencies: 
+       pip install -r requirements.txt
 
 
 -- The user will use a parser which receives different types of files and will analyze those files in order to produce a song. The files needed include:
