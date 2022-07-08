@@ -91,26 +91,10 @@ class Track():
             # PROGRESS BAR // aesthetic purposes
             n += 1
             percentage = round((n/len(self.sheet))*100, 2)
-            progress = '[__________]'
-            if percentage > 10:
-                progress = f'[▓_________]'
-            if percentage>20:
-                progress = f'[▓▓________]'
-            if percentage>30:
-                progress = f'[▓▓▓_______]'
-            if percentage >40:
-                progress = f'[▓▓▓▓______]'
-            if percentage>50:
-                progress = f'[▓▓▓▓▓_____]'
-            if percentage>60:
-                progress = f'[▓▓▓▓▓▓____]'
-            if percentage>70:
-                progress = f'[▓▓▓▓▓▓▓___]'
-            if percentage>80:
-                progress = f'[▓▓▓▓▓▓▓▓__]'
-            if percentage>90:
-                progress = f'[▓▓▓▓▓▓▓▓▓_]'
-
-            print(progress, percentage, '%')
+             percentage = round((n/len(self.sheet))*100, 2)
+            progress = '▓'*(int(percentage//10))
+            remaining = '_'*(10-int(percentage//10))
+            bar = f'[{progress}{remaining}]'
+            print(bar, percentage, '%')
         print(f'[▓▓▓▓▓▓▓▓▓▓] 100.00 % PROCESSING COMPLETE')
         return track_array
