@@ -84,7 +84,6 @@ class Track():
                 continue
             note_array = self.instrument.synthetise(note[1], (note[2]))
             pre_note_array = np.zeros(int(note[0]*48000))
-            post_note_len = (self.duration-(note[0]+note[2]+self.instrument.get_decay_time()))
             post_note_array = np.zeros(len(track_array)-(len(note_array)+len(pre_note_array)))
             a = np.concatenate((pre_note_array, note_array), axis=None)
             b = np.concatenate((a, post_note_array), axis=None)
