@@ -91,7 +91,6 @@ class Track():
             # PROGRESS BAR // aesthetic purposes
             n += 1
             percentage = round((n/len(self.sheet))*100, 2)
-             percentage = round((n/len(self.sheet))*100, 2)
             progress = '▓'*(int(percentage//10))
             remaining = '_'*(10-int(percentage//10))
             bar = f'[{progress}{remaining}]'
